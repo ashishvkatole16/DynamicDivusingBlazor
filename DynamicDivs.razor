@@ -1,0 +1,23 @@
+﻿@page "/dynamicdivs"
+@inject IJSRuntime JS
+
+<h3>Dynamic Divs Example</h3>
+
+<input type="text" id="textbox1" placeholder="Click me" @onfocus="() => ShowDiv(0)">
+<input type="text" id="textbox2" placeholder="Click me" @onfocus="() => ShowDiv(1)">
+<input type="text" id="textbox3" placeholder="Click me" @onfocus="() => ShowDiv(2)">
+
+@code {
+    private async Task ShowDiv(int index)
+    {
+        await JS.InvokeVoidAsync("showDiv", index);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initializeDynamicDivs");
+        }
+    }
+}
